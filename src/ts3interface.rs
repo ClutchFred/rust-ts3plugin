@@ -138,6 +138,17 @@ pub unsafe extern "C" fn ts3plugin_onServerStopEvent(server_id: u64, message: *c
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_configure(_: Option<Box<()>>, _: Option<Box<()>>) {
+	let mut data = DATA.lock().unwrap();
+	let data = data.0.as_mut().unwrap();
+	let api = &mut data.0;
+	let plugin = &mut data.1;
+	plugin.configure(api);
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_onServerErrorEvent(server_id: u64,
 	message: *const c_char, error: c_uint, return_code: *const c_char,
 	extra_message: *const c_char) -> c_int {

@@ -57,6 +57,8 @@ pub trait Plugin: 'static + Send {
 	/// Called if a server is stopped. The server sends also a stop message.
 	fn server_stop(&mut self, api: &mut ::TsApi, server_id: ::ServerId, message: String) {}
 
+	fn configure(&mut self, api: &mut ::TsApi) {}
+
 	/// Called if a server error occurs.
 	/// Return `false` if the TeamSpeak client should handle the error normally or
 	/// `true` if the client should ignore the error.
