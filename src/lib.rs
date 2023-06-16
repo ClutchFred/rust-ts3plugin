@@ -126,24 +126,24 @@ pub struct Permissions;
 
 /// A wrapper for a server id.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct ServerId(u64);
+pub struct ServerId(pub u64);
 
 /// A wrapper for a channel id.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct ChannelId(u64);
+pub struct ChannelId(pub u64);
 
 /// A wrapper for a connection id.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct ConnectionId(u16);
+pub struct ConnectionId(pub u16);
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct PermissionId(u32);
+pub struct PermissionId(pub u32);
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct ServerGroupId(u64);
+pub struct ServerGroupId(pub u64);
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
-pub struct ChannelGroupId(u64);
+pub struct ChannelGroupId(pub u64);
 
 
 // ******************** Implementation ********************
