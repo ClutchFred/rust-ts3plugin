@@ -65,7 +65,7 @@ pub unsafe fn private_init<T: Plugin>() -> Result<(), ::InitError> {
 #[no_mangle]
 #[doc(hidden)]
 pub extern "C" fn ts3plugin_apiVersion() -> c_int {
-	21
+	26
 }
 
 #[allow(non_snake_case)]
