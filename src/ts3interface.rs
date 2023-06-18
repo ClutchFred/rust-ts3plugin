@@ -1151,7 +1151,8 @@ pub unsafe extern "C" fn ts3plugin_onClientSelfVariableUpdateEvent(
 	let old_value = to_string!(old_value);
 	let new_value = to_string!(new_value);
 
-	println!("selfVariableChange f: {:?}, oVal: {} nVal: {}", flag, old_value, new_value);
+	plugin.self_variable_update(api, server_id, flag, old_value, new_value);
+
 }
 
 #[allow(non_snake_case)]
