@@ -208,6 +208,15 @@ pub unsafe extern "C" fn ts3plugin_infoData(
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char {
+	let s = ::std::ffi::CString::new("TEST FFI").expect("String contains nul character");
+	s.as_ptr()
+}
+
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_onServerEditedEvent(
     server_id: u64,
     invoker_id: u16,
@@ -603,6 +612,7 @@ pub unsafe extern "C" fn ts3plugin_onChannelDescriptionUpdateEvent(
     }
     plugin.channel_description_updated(api, server_id, channel_id);
 }
+
 
 #[allow(non_snake_case)]
 #[no_mangle]
