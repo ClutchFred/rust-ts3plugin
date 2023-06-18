@@ -181,7 +181,7 @@ pub unsafe extern "C" fn ts3plugin_infoData(server_id: u64, invoker_id: u64, typ
 	let mut plugin = &mut data.1;
 
 	let str = Box::new(CStr::from_ptr(*data));
-	println!("LOL DATA: {}", str);
+	println!("LOL DATA: {}", str.to_str().unwrap());
 
 	//plugin.info_data(api, server_id, invoker_id, typee, str);
 }
