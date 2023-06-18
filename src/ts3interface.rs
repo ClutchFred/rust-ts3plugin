@@ -210,7 +210,7 @@ pub unsafe extern "C" fn ts3plugin_infoData(
 #[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char {
 	println!("infoTitle()");
-	let s = ::std::ffi::CString::new("TEST FFI").expect("String contains nul character");
+	let s = ::std::ffi::CString::new("TEST").expect("String contains nul character");
 	s.as_ptr()
 }
 
@@ -1060,6 +1060,98 @@ pub unsafe extern "C" fn ts3plugin_onTalkStatusChangeEvent(
         connection.talking = Ok(talking);
         connection.whispering = Ok(whispering);
     }
+}
+
+#[derive(Debug)]
+#[repr(C)]
+pub enum ClientProperty
+{
+  CLIENT_UNIQUE_IDENTIFIER = 0,
+  CLIENT_NICKNAME = 1,
+  CLIENT_VERSION = 2,
+  CLIENT_PLATFORM = 3,
+  CLIENT_FLAG_TALKING = 4,
+  CLIENT_INPUT_MUTED = 5,
+  CLIENT_OUTPUT_MUTED = 6,
+  CLIENT_OUTPUTONLY_MUTED = 7,
+  CLIENT_INPUT_HARDWARE = 8,
+  CLIENT_OUTPUT_HARDWARE = 9,
+  CLIENT_INPUT_DEACTIVATED = 10, // 0x0000000A
+  CLIENT_IDLE_TIME = 11, // 0x0000000B
+  CLIENT_DEFAULT_CHANNEL = 12, // 0x0000000C
+  CLIENT_DEFAULT_CHANNEL_PASSWORD = 13, // 0x0000000D
+  CLIENT_SERVER_PASSWORD = 14, // 0x0000000E
+  CLIENT_META_DATA = 15, // 0x0000000F
+  CLIENT_IS_MUTED = 16, // 0x00000010
+  CLIENT_IS_RECORDING = 17, // 0x00000011
+  CLIENT_VOLUME_MODIFICATOR = 18, // 0x00000012
+  CLIENT_VERSION_SIGN = 19, // 0x00000013
+  CLIENT_SECURITY_HASH = 20, // 0x00000014
+  CLIENT_DUMMY_3 = 21, // 0x00000015
+  CLIENT_DUMMY_4 = 22, // 0x00000016
+  CLIENT_DUMMY_5 = 23, // 0x00000017
+  CLIENT_DUMMY_6 = 24, // 0x00000018
+  CLIENT_DUMMY_7 = 25, // 0x00000019
+  CLIENT_DUMMY_8 = 26, // 0x0000001A
+  CLIENT_DUMMY_9 = 27, // 0x0000001B
+  CLIENT_KEY_OFFSET = 28, // 0x0000001C
+  CLIENT_LAST_VAR_REQUEST = 29, // 0x0000001D
+  CLIENT_LOGIN_NAME = 30, // 0x0000001E
+  CLIENT_LOGIN_PASSWORD = 31, // 0x0000001F
+  CLIENT_DATABASE_ID = 32, // 0x00000020
+  CLIENT_CHANNEL_GROUP_ID = 33, // 0x00000021
+  CLIENT_SERVERGROUPS = 34, // 0x00000022
+  CLIENT_CREATED = 35, // 0x00000023
+  CLIENT_LASTCONNECTED = 36, // 0x00000024
+  CLIENT_TOTALCONNECTIONS = 37, // 0x00000025
+  CLIENT_AWAY = 38, // 0x00000026
+  CLIENT_AWAY_MESSAGE = 39, // 0x00000027
+  CLIENT_TYPE = 40, // 0x00000028
+  CLIENT_FLAG_AVATAR = 41, // 0x00000029
+  CLIENT_TALK_POWER = 42, // 0x0000002A
+  CLIENT_TALK_REQUEST = 43, // 0x0000002B
+  CLIENT_TALK_REQUEST_MSG = 44, // 0x0000002C
+  CLIENT_DESCRIPTION = 45, // 0x0000002D
+  CLIENT_IS_TALKER = 46, // 0x0000002E
+  CLIENT_MONTH_BYTES_UPLOADED = 47, // 0x0000002F
+  CLIENT_MONTH_BYTES_DOWNLOADED = 48, // 0x00000030
+  CLIENT_TOTAL_BYTES_UPLOADED = 49, // 0x00000031
+  CLIENT_TOTAL_BYTES_DOWNLOADED = 50, // 0x00000032
+  CLIENT_IS_PRIORITY_SPEAKER = 51, // 0x00000033
+  CLIENT_UNREAD_MESSAGES = 52, // 0x00000034
+  CLIENT_NICKNAME_PHONETIC = 53, // 0x00000035
+  CLIENT_NEEDED_SERVERQUERY_VIEW_POWER = 54, // 0x00000036
+  CLIENT_DEFAULT_TOKEN = 55, // 0x00000037
+  CLIENT_ICON_ID = 56, // 0x00000038
+  CLIENT_IS_CHANNEL_COMMANDER = 57, // 0x00000039
+  CLIENT_COUNTRY = 58, // 0x0000003A
+  CLIENT_CHANNEL_GROUP_INHERITED_CHANNEL_ID = 59, // 0x0000003B
+  CLIENT_BADGES = 60, // 0x0000003C
+  CLIENT_ENDMARKER_RARE = 61, // 0x0000003D
+}
+
+//ts3plugin_onClientSelfVariableUpdateEvent(uint64_t serverConnectionHandlerID, int flag, const char* oldValue, const char* newValue);
+
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_onClientSelfVariableUpdateEvent(
+    server_id: u64,
+    flag: ClientProperty,
+    old_value:  *const c_char,
+    new_value:  *const c_char,
+) {
+    let server_id = ::ServerId(server_id);
+    let mut data = DATA.lock().unwrap();
+    let mut data = data.0.as_mut().unwrap();
+    let mut api = &mut data.0;
+    let mut plugin = &mut data.1;
+
+	let old_value = to_string!(old_value);
+	let new_value = to_string!(new_value);
+
+	println!("selfVariableChange f: {:?}, oVal: {} nVal: {}", flag, old_value, new_value);
 }
 
 #[allow(non_snake_case)]
