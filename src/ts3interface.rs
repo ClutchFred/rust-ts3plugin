@@ -1,5 +1,5 @@
 use std::os::raw::{c_char, c_int, c_short, c_uint};
-use std::ffi::CStr;
+use std::ffi::{CStr, CString};
 use std::mem::transmute;
 use std::slice;
 use std::sync::Mutex;
@@ -164,6 +164,29 @@ pub unsafe extern "C" fn ts3plugin_onServerErrorEvent(server_id: u64,
 	let b = plugin.server_error(api, server_id, error, message, return_code, extra_message);
 	if b { 1 } else { 0 }
 }
+
+
+pub enum PluginItemType {
+	PLUGIN_SERVER=0,
+	PLUGIN_CHANNEL=1,
+	PLUGIN_CLIENT=2
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_infoData(server_id: u64, invoker_id: u64, typee: PluginItemType, data: *mut *mut ::std::os::raw::c_char) {
+	let server_id = ::ServerId(server_id);
+	let mut api = &mut data.0;
+	let mut plugin = &mut data.1;
+
+	let str = Box::new(CStr::from_ptr(*data));
+	println!("LOL DATA: {}", str);
+
+	//plugin.info_data(api, server_id, invoker_id, typee, str);
+}
+
+
 
 #[allow(non_snake_case)]
 #[no_mangle]
