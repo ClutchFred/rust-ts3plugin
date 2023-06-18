@@ -165,7 +165,7 @@ pub unsafe extern "C" fn ts3plugin_onServerErrorEvent(server_id: u64,
 	if b { 1 } else { 0 }
 }
 
-
+#[repr(C)]
 pub enum PluginItemType {
 	PLUGIN_SERVER=0,
 	PLUGIN_CHANNEL=1,
@@ -175,15 +175,13 @@ pub enum PluginItemType {
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
-pub unsafe extern "C" fn ts3plugin_infoData(server_id: u64, invoker_id: u64, typee: PluginItemType, datae: *mut *mut ::std::os::raw::c_char) {
+pub unsafe extern "C" fn ts3plugin_infoData(server_id: u64, invoker_id: u64, p_type: PluginItemType, datae: *mut *mut c_char) {
+	println!("received info data!");
 	let server_id = ::ServerId(server_id);
 	let mut data = DATA.lock().unwrap();
 	let mut data = data.0.as_mut().unwrap();
 	let mut api = &mut data.0;
 	let mut plugin = &mut data.1;
-
-	let str = Box::new(CStr::from_ptr(*datae));
-	println!("LOL DATA: {}", str.to_str().unwrap());
 
 	//plugin.info_data(api, server_id, invoker_id, typee, str);
 }
