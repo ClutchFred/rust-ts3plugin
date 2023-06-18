@@ -312,6 +312,8 @@ pub unsafe extern "C" fn ts3plugin_onClientMoveEvent(
     visibility: c_int,
     move_message: *const c_char,
 ) {
+	println!("move event");
+
     let server_id = ::ServerId(server_id);
     let connection_id = ::ConnectionId(connection_id);
     let old_channel_id = ::ChannelId(old_channel_id);
