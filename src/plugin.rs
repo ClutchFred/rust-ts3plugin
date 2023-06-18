@@ -1,6 +1,8 @@
 use std::sync::Mutex;
 
-use crate::{TsApi, ts3interface::ClientProperty};
+use ts3plugin_sys::public_definitions::ClientProperties;
+
+use crate::{TsApi};
 
 #[derive(Debug)]
 pub enum InitError {
@@ -181,7 +183,7 @@ pub trait Plugin: 'static + Send {
 		connection_id: ::ConnectionId, path: Option<String>) {}
 
 	fn self_variable_update(&mut self, api: &mut ::TsApi, server_id: ::ServerId, 
-		flag: ClientProperty, old_value: String, new_value: String) {}
+		flag: ClientProperties, old_value: String, new_value: String) {}
 
 	/// Called if a channel group is assigned to a connection.
 	fn connection_channel_group_changed(&mut self, api: &mut ::TsApi,
