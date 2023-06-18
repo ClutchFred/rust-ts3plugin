@@ -209,8 +209,17 @@ pub unsafe extern "C" fn ts3plugin_infoData(
 #[no_mangle]
 #[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char {
+	println!("infoTitle()");
 	let s = ::std::ffi::CString::new("TEST FFI").expect("String contains nul character");
 	s.as_ptr()
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_freeMemory(data: Option<Box<()>>) {
+	println!("free Memory()");
+	drop(data);
 }
 
 
