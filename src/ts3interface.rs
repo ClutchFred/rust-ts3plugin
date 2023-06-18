@@ -200,7 +200,7 @@ pub unsafe extern "C" fn ts3plugin_infoData(
     serverConnectionHandlerID: u64,
     id: u64,
     type_: [u8; 0usize],
-    data: *mut *mut ::std::os::raw::c_char,
+    data: *mut *mut c_char,
 ) {
 	println!("requested info data");
 }
