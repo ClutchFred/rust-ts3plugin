@@ -611,7 +611,7 @@ fn create_server(f: &mut Write) {
 			let hostmessage = Self::get_property_as_string(id, VirtualServerProperties::Hostmessage);\n\n\
 
 			//TODO\n\
-			/*let created = UTC::now();\n\
+			/*let created = Utc::now();\n\
 			let default_server_group = Permissions;\n\
 			let default_channel_group = Permissions;\n\
 			let default_channel_admin_group = Permissions;\n\n\
@@ -632,7 +632,7 @@ fn create_server(f: &mut Write) {
 			builder_string.name("phonetic_name").value_name("NamePhonetic").finalize(),
 			builder_string.name("platform").finalize(),
 			builder_string.name("version").finalize(),
-			builder.name("created").type_s("DateTime<UTC>").update("Ok(UTC::now())").finalize(),
+			builder.name("created").type_s("DateTime<Utc>").update("Ok(Utc::now())").finalize(),
 			builder.name("codec_encryption_mode").type_s("CodecEncryptionMode").finalize(),
 			builder.name("default_server_group").type_s("Permissions").update("Ok(Permissions)").finalize(),
 			builder.name("default_channel_group").type_s("Permissions").update("Ok(Permissions)").finalize(),
@@ -814,8 +814,8 @@ fn create_connection(f: &mut Write) {
 			builder.name("server_id").type_s("ServerId").result(false).finalize(),
 			builder_string.name("version").finalize(),
 			builder_string.name("platform").finalize(),
-			builder.name("created").type_s("DateTime<UTC>").finalize(),
-			builder.name("last_connected").type_s("DateTime<UTC>").finalize(),
+			builder.name("created").type_s("DateTime<Utc>").finalize(),
+			builder.name("last_connected").type_s("DateTime<Utc>").finalize(),
 			builder_i32.name("total_connection").finalize(),
 			builder.name("ping").type_s("Duration").finalize(),
 			builder.name("ping_deviation").type_s("Duration").finalize(),
@@ -899,7 +899,7 @@ fn create_connection(f: &mut Write) {
 			client_b.name("server_groups").type_s("Vec<Permissions>").finalize(),
 			client_b.name("talk_power").type_s("i32").finalize(),
 			// When this client requested to talk
-			client_b.name("talk_request").type_s("DateTime<UTC>").finalize(),
+			client_b.name("talk_request").type_s("DateTime<Utc>").finalize(),
 			client_b.name("talk_request_message").type_s("String").value_name("TalkRequestMsg").finalize(),
 
 			client_b.name("channel_group_inherited_channel_id").type_s("ChannelId")
