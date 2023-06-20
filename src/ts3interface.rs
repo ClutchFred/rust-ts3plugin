@@ -203,26 +203,25 @@ pub unsafe extern "C" fn ts3plugin_infoData(
     type_: [u8; 0usize],
     data: *mut *mut c_char,
 ) {
-	println!("requested info data");
+    println!("requested info data");
 }
 
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char {
-	println!("infoTitle()");
-	let s = ::std::ffi::CString::new("TEST").expect("String contains nul character");
-	s.as_ptr()
+    println!("infoTitle()");
+    let s = ::std::ffi::CString::new("TEST").expect("String contains nul character");
+    s.as_ptr()
 }
 
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_freeMemory(data: Option<Box<()>>) {
-	println!("free Memory()");
-	drop(data);
+    println!("free Memory()");
+    drop(data);
 }
-
 
 #[allow(non_snake_case)]
 #[no_mangle]
@@ -331,7 +330,7 @@ pub unsafe extern "C" fn ts3plugin_onClientMoveEvent(
     visibility: c_int,
     move_message: *const c_char,
 ) {
-	println!("move event");
+    println!("move event");
 
     let server_id = ::ServerId(server_id);
     let connection_id = ::ConnectionId(connection_id);
@@ -622,7 +621,6 @@ pub unsafe extern "C" fn ts3plugin_onChannelDescriptionUpdateEvent(
     }
     plugin.channel_description_updated(api, server_id, channel_id);
 }
-
 
 #[allow(non_snake_case)]
 #[no_mangle]
@@ -1038,6 +1036,32 @@ pub unsafe extern "C" fn ts3plugin_onClientBanFromServerEvent(
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
+pub unsafe extern "C" fn ts3plugin_onCustom3dRolloffCalculationClientEvent(
+    server_id: u64,
+    client_id: u16,
+    distance: f32,
+    volume: *mut f32,
+) {
+    let server_id = ::ServerId(server_id);
+    let client_id = ::ConnectionId(client_id);
+
+    let mut data = DATA.lock().unwrap();
+    let mut data = data.0.as_mut().unwrap();
+    let mut api = &mut data.0;
+    let mut plugin = &mut data.1;
+
+    plugin.ev_3drollof_calculation(
+        api,
+        server_id,
+        client_id,
+        distance,
+        volume,
+    );
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+#[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_onTalkStatusChangeEvent(
     server_id: u64,
     talking: c_int,
@@ -1063,9 +1087,7 @@ pub unsafe extern "C" fn ts3plugin_onTalkStatusChangeEvent(
     }
 }
 
-
 //ts3plugin_onClientSelfVariableUpdateEvent(uint64_t serverConnectionHandlerID, int flag, const char* oldValue, const char* newValue);
-
 
 #[allow(non_snake_case)]
 #[no_mangle]
@@ -1073,8 +1095,8 @@ pub unsafe extern "C" fn ts3plugin_onTalkStatusChangeEvent(
 pub unsafe extern "C" fn ts3plugin_onClientSelfVariableUpdateEvent(
     server_id: u64,
     flag: ClientProperties,
-    old_value:  *const c_char,
-    new_value:  *const c_char,
+    old_value: *const c_char,
+    new_value: *const c_char,
 ) {
     let server_id = ::ServerId(server_id);
     let mut data = DATA.lock().unwrap();
@@ -1082,11 +1104,10 @@ pub unsafe extern "C" fn ts3plugin_onClientSelfVariableUpdateEvent(
     let mut api = &mut data.0;
     let mut plugin = &mut data.1;
 
-	let old_value = to_string!(old_value);
-	let new_value = to_string!(new_value);
+    let old_value = to_string!(old_value);
+    let new_value = to_string!(new_value);
 
-	plugin.self_variable_update(api, server_id, flag, old_value, new_value);
-
+    plugin.self_variable_update(api, server_id, flag, old_value, new_value);
 }
 
 #[allow(non_snake_case)]
