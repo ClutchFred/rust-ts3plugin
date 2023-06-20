@@ -10,6 +10,8 @@ use ts3plugin_sys::ts3functions::Ts3Functions;
 
 use plugin::Plugin;
 
+use crate::CREATE_PLUGIN_DATA;
+
 lazy_static! {
     /// The api, plugin and plugin id
     pub(crate) static ref DATA: Mutex<(Option<(::TsApi, Box<Plugin>)>, Option<String>)> =
@@ -198,21 +200,28 @@ pub enum PluginItemType {
 #[no_mangle]
 #[doc(hidden)]
 pub unsafe extern "C" fn ts3plugin_infoData(
-    serverConnectionHandlerID: u64,
+    server_id: u64,
     id: u64,
-    type_: [u8; 0usize],
-    data: *mut *mut c_char,
+    type_: PluginItemType,
+    data_x: *mut *mut c_char,
 ) {
-    println!("requested info data");
+    let server_id = ::ServerId(server_id);
+
+    let mut data = DATA.lock().unwrap();
+    let data = data.0.as_mut().unwrap();
+    let api = &mut data.0;
+    let plugin = &mut data.1;
+
+    plugin.info_data(api, server_id, id, type_, data_x);
 }
 
 #[allow(non_snake_case)]
 #[no_mangle]
 #[doc(hidden)]
-pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char {
+pub unsafe extern "C" fn ts3plugin_infoTitle() -> *const std::os::raw::c_char  {
     println!("infoTitle()");
-    let s = ::std::ffi::CString::new("TEST").expect("String contains nul character");
-    s.as_ptr()
+    let name = CREATE_PLUGIN_DATA.lock().unwrap().name.clone().unwrap();
+    name.as_ptr()
 }
 
 #[allow(non_snake_case)]
@@ -1050,13 +1059,7 @@ pub unsafe extern "C" fn ts3plugin_onCustom3dRolloffCalculationClientEvent(
     let mut api = &mut data.0;
     let mut plugin = &mut data.1;
 
-    plugin.ev_3drollof_calculation(
-        api,
-        server_id,
-        client_id,
-        distance,
-        &mut *volume,
-    );
+    plugin.ev_3drollof_calculation(api, server_id, client_id, distance, &mut *volume);
 }
 
 #[allow(non_snake_case)]
