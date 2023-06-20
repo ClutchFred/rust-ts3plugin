@@ -24,13 +24,13 @@ name = "ts3plugin"
 default = []
 
 [dependencies]
-chrono = "0.2"
+chrono = "0.4"
 ts3plugin-sys = "0.3"
-lazy_static = "0.2"
+lazy_static = "1.4"
 
 # For tests
 [build-dependencies]
-skeptic = "0.6"
+skeptic = "0.13"
 
 [dev-dependencies]
-skeptic = "0.6"
+skeptic = "0.13"
