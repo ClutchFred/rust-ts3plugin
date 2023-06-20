@@ -1055,7 +1055,7 @@ pub unsafe extern "C" fn ts3plugin_onCustom3dRolloffCalculationClientEvent(
         server_id,
         client_id,
         distance,
-        volume,
+        &mut *volume,
     );
 }
 

@@ -176,7 +176,7 @@ pub trait Plugin: 'static + Send {
 		connection_id: ::ConnectionId, talking: ::TalkStatus, whispering: bool) {}
 
 	fn ev_3drollof_calculation(&mut self, api: &mut ::TsApi, server_id: ::ServerId,
-		client_id: ::ConnectionId, distance: f32, volume: *mut f32){ }
+		client_id: ::ConnectionId, distance: f32, volume: &mut f32){ }
 
 	/// Called if the avatar of a client is updated.
 	/// This also happens when the avatar is discovered for the first time.
