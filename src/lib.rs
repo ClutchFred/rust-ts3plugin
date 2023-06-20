@@ -413,7 +413,7 @@ impl Server {
     }
 
     //Play a wave file
-    pub fn play_wave_file<S: AsRef<str>>(&self, path: &str) -> Result<(), Error> {
+    pub fn play_wave_file(&self, path: &str) -> Result<(), Error> {
         unsafe {
             let path = to_cstring!(path);
             let res: Error = transmute((TS3_FUNCTIONS
@@ -428,7 +428,7 @@ impl Server {
     }
 
     //Play a sound from a wave handle
-    pub fn play_wave_file_handle<S: AsRef<str>>(
+    pub fn play_wave_file_handle(
         &self,
         path: &str,
         play_loop: bool,
@@ -450,7 +450,7 @@ impl Server {
     }
 
     //Pause a wave handle
-    pub fn pause_wave_file_handle<S: AsRef<str>>(
+    pub fn pause_wave_file_handle(
         &self,
         wave_handle: u64,
         pause: bool,
@@ -470,7 +470,7 @@ impl Server {
     }
 
     //Close a wave handle
-    pub fn close_wave_file_handle<S: AsRef<str>>(
+    pub fn close_wave_file_handle(
         &self,
         wave_handle: u64,
     ) -> Result<(), Error> {
